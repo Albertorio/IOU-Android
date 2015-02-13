@@ -1,0 +1,46 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context=".MyActivity">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Debts"
+        android:id="@+id/DebtsTitle"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Debts"
+        android:id="@+id/DebtsButton"
+        android:layout_alignParentBottom="true"
+        android:layout_toLeftOf="@+id/DebtsTitle"
+        android:onClick="DebtsPage"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Loans"
+        android:id="@+id/LoansButton"
+        android:layout_alignParentBottom="true"
+        android:layout_toRightOf="@+id/DebtsTitle"
+        android:onClick="LoansPage"/>
+
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/DebtsListView"
+        android:layout_below="@+id/DebtsTitle"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@+id/DebtsButton" />
+
+</RelativeLayout>

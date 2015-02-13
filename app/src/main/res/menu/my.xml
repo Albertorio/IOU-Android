@@ -1,0 +1,17 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".MyActivity" >
+
+    <item android:id="@+id/add_loan"
+        android:title="Add Loan"
+        android:orderInCategory="100"
+        android:showAsAction="never"/>
+    <item android:id="@+id/add_debt"
+        android:title="Add Debt"
+        android:orderInCategory="100"
+        android:showAsAction="never"/>
+    <item android:id="@+id/exit"
+        android:title="Exit"
+        android:orderInCategory="100"
+        android:showAsAction="never"/>
+</menu>
