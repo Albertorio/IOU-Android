@@ -34,9 +34,9 @@ public class LoansPage extends Activity {
         owe.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent getPerson = new Intent(LoansPage.this, person.class);
+                Intent getPerson = new Intent(LoansPage.this, LoanPerson.class);
                 String personPicked = String.valueOf(parent.getItemAtPosition(position));
-                getPerson.putExtra("owePerson", personPicked);
+                getPerson.putExtra("PersonLoan", personPicked);
                 startActivity(getPerson);
             }
         });

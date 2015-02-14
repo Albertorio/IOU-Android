@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -27,10 +28,15 @@ public class MyActivity extends Activity {
 
         String[] Money = {"Luis", "Albertorio"};
 
+        HashMap hm = new HashMap();
+        hm.put("Luis", 5.00);
+        hm.put("Albertorio" ,3.25);
+
         debt = (Button)findViewById(R.id.DebtsButton);
         loan = (Button)findViewById(R.id.LoansButton);
         owe = (ListView)findViewById(R.id.DebtsListView);
-        ListAdapter theAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,Money);
+        ListAdapter theAdapter = new MyAdapter(this,Money);
+       // ListAdapter theAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,Money);
         owe.setAdapter(theAdapter);
 
         owe.setOnItemClickListener(new AdapterView.OnItemClickListener() {
