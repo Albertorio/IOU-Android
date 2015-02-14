@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListAdapter;
@@ -31,6 +32,16 @@ public class MyActivity extends Activity {
         owe = (ListView)findViewById(R.id.DebtsListView);
         ListAdapter theAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,Money);
         owe.setAdapter(theAdapter);
+
+        owe.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent getPerson = new Intent(MyActivity.this, person.class);
+                String personPicked = String.valueOf(parent.getItemAtPosition(position));
+                getPerson.putExtra("owePerson", personPicked);
+                startActivity(getPerson);
+            }
+        });
 
     }
 

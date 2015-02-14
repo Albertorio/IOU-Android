@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListAdapter;
@@ -29,13 +30,23 @@ public class LoansPage extends Activity {
         owe = (ListView)findViewById(R.id.LoansListView);
         ListAdapter theAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,Money);
         owe.setAdapter(theAdapter);
+
+        owe.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent getPerson = new Intent(LoansPage.this, person.class);
+                String personPicked = String.valueOf(parent.getItemAtPosition(position));
+                getPerson.putExtra("owePerson", personPicked);
+                startActivity(getPerson);
+            }
+        });
     }
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.loans_page, menu);
+        getMenuInflater().inflate(R.menu.my, menu);
         return true;
     }
 
