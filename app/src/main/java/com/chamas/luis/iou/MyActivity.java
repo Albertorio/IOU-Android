@@ -3,6 +3,7 @@ package com.chamas.luis.iou;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,6 +22,9 @@ public class MyActivity extends Activity {
     private Button debt;
     private Button loan;
     private ListView owe;
+    private String newName="";
+    private String newAmount="";
+    private ArrayList<items> go;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,13 +33,25 @@ public class MyActivity extends Activity {
 
         String[] Money = {"Luis", "Albertorio"};
 
-        debt = (Button)findViewById(R.id.DebtsButton);
-        loan = (Button)findViewById(R.id.LoansButton);
-        owe = (ListView)findViewById(R.id.DebtsListView);
-        ListAdapter theAdapter = new MyAdapter_2(this,generateData());
-       // ListAdapter theAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,Money);
-        owe.setAdapter(theAdapter);
+        Intent activityThatCalled = getIntent();
 
+
+        if(newName != "" || newAmount != ""){
+            ArrayList<items> go;
+            go = generateData(newName, newAmount);
+            ListAdapter theAdapter = new MyAdapter_2(this, generateData(newName, newAmount));
+            owe = (ListView) findViewById(R.id.DebtsListView);
+            owe.setAdapter(theAdapter);
+        }else {
+
+            debt = (Button) findViewById(R.id.DebtsButton);
+            loan = (Button) findViewById(R.id.LoansButton);
+            owe = (ListView) findViewById(R.id.DebtsListView);
+            ListAdapter theAdapter = new MyAdapter_2(this, generateData());
+            // ListAdapter theAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,Money);
+            owe.setAdapter(theAdapter);
+
+        }
         owe.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -61,6 +77,18 @@ public class MyActivity extends Activity {
         item.add(new items("Luis", "5.00"));
         item.add(new items("Jorge", "12.50"));
 
+
+
+        return item;
+    }
+
+    //overloaded generateData function
+    private ArrayList<items> generateData(String name, String price){
+
+        ArrayList<items> item = new ArrayList<items>();
+
+        item.add(new items(name, price));
+
         return item;
     }
 
@@ -78,12 +106,30 @@ public class MyActivity extends Activity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        if (id == R.id.exit) {
-            return true;
+        if (id == R.id.add_debt) {
+            Intent new_debt = new Intent(this, AddDebt.class);
+            startActivityForResult(new_debt, 1);
+        }else if(id == R.id.exit){
+            finish();
         }
         return super.onOptionsItemSelected(item);
     }
 
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (requestCode == 1) {
+            if(resultCode == RESULT_OK){
+                newName = data.getExtras().getString("newName");
+                newAmount = data.getExtras().getString("newAmount");
+                ListAdapter theAdapter = new MyAdapter_2(this, generateData(newName,newAmount));
+                owe = (ListView) findViewById(R.id.DebtsListView);
+                owe.setAdapter(theAdapter);
+            }
+            if (resultCode == RESULT_CANCELED) {
+                //Write your code if there's no result
+            }
+        }
+    }//onActivityResult
 
     public void DebtsPage(View view) {
         Intent getDebtsPage = new Intent(this, MyActivity.class);
