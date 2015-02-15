@@ -18,8 +18,11 @@ public class person extends Activity {
         setContentView(R.layout.activity_person);
         Intent activityThatCalled = getIntent();
         person = (TextView)findViewById(R.id.PersonsTextView);
-        String owe = activityThatCalled.getExtras().getString("owePerson");
-        person.setText(owe);
+        String name = activityThatCalled.getExtras().getString("owePerson");
+        person.setText(name);
+        String price = activityThatCalled.getExtras().getString("price");
+        TextView money = (TextView)findViewById(R.id.MoneyView);
+        money.setText(price);
 
     }
 

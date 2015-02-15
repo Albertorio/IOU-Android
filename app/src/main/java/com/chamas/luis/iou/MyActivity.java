@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -28,27 +29,39 @@ public class MyActivity extends Activity {
 
         String[] Money = {"Luis", "Albertorio"};
 
-        HashMap hm = new HashMap();
-        hm.put("Luis", 5.00);
-        hm.put("Albertorio" ,3.25);
-
         debt = (Button)findViewById(R.id.DebtsButton);
         loan = (Button)findViewById(R.id.LoansButton);
         owe = (ListView)findViewById(R.id.DebtsListView);
-        ListAdapter theAdapter = new MyAdapter(this,Money);
+        ListAdapter theAdapter = new MyAdapter_2(this,generateData());
        // ListAdapter theAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,Money);
         owe.setAdapter(theAdapter);
 
         owe.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                items item;
+
                 Intent getPerson = new Intent(MyActivity.this, person.class);
-                String personPicked = String.valueOf(parent.getItemAtPosition(position));
-                getPerson.putExtra("owePerson", personPicked);
+                String personPicked;
+                item = (items)parent.getItemAtPosition(position);
+                personPicked = item.getName();
+                String price = item.getPrice();
+                getPerson.putExtra("owePerson",personPicked);
+                getPerson.putExtra("price", price);
                 startActivity(getPerson);
             }
         });
 
+    }
+
+    private ArrayList<items> generateData(){
+
+        ArrayList<items> item = new ArrayList<items>();
+
+        item.add(new items("Luis", "5.00"));
+        item.add(new items("Jorge", "12.50"));
+
+        return item;
     }
 
 
