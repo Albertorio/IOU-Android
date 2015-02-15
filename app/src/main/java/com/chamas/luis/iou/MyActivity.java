@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -12,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -24,6 +26,7 @@ public class MyActivity extends Activity {
     private String newAmount="";
     private ArrayList<items> go = new ArrayList<items>();
     private ListAdapter theAdapter;
+    private TextView noDebt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,23 +36,23 @@ public class MyActivity extends Activity {
         debt = (Button) findViewById(R.id.DebtsButton);
         loan = (Button) findViewById(R.id.LoansButton);
         owe = (ListView) findViewById(R.id.DebtsListView);
+        noDebt = (TextView) findViewById(R.id.NoDebtsTextView);
+
         // ListAdapter theAdapter = new MyAdapter_2(this, generateData());
         // ListAdapter theAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,Money);
         //  owe.setAdapter(theAdapter);
 
-        if(theAdapter.isEmpty()){
-
-        }
+        //if(!go.isEmpty()) noDebt.setText(" ");
 
         owe.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
                 items item;
-                item = (items)parent.getItemAtPosition(position);
+                item = (items) parent.getItemAtPosition(position);
                 String personPicked = item.getName();
 
-                
-                AlertDialog.Builder adb=new AlertDialog.Builder(MyActivity.this);
+
+                AlertDialog.Builder adb = new AlertDialog.Builder(MyActivity.this);
                 adb.setTitle("Delete?");
                 adb.setMessage("Are you sure you want to delete " + personPicked);
                 final int positionToRemove = position;
@@ -59,8 +62,12 @@ public class MyActivity extends Activity {
 
                         go.remove(positionToRemove);
                         owe.invalidateViews();
-                    }});
+                        if(theAdapter.isEmpty())noDebt.setText("You Have No Debts!!");
+                    }
+                });
                 adb.show();
+
+
 
                 return true;
             }
@@ -138,6 +145,9 @@ public class MyActivity extends Activity {
                 go.add(new items(newName,newAmount));
 
                theAdapter = new MyAdapter_2(this, go);
+                if(!theAdapter.isEmpty()){
+                    noDebt.setText(" ");
+                }
                 owe = (ListView) findViewById(R.id.DebtsListView);
                 owe.setAdapter(theAdapter);
             }

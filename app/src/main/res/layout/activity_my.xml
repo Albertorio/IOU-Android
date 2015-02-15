@@ -41,6 +41,17 @@
         android:id="@+id/DebtsListView"
         android:layout_below="@+id/DebtsTitle"
         android:layout_centerHorizontal="true"
-        android:layout_above="@+id/DebtsButton" />
+        android:layout_above="@+id/DebtsButton"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="You Have No Debts!!"
+        android:textSize="32sp"
+        android:id="@+id/NoDebtsTextView"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
+
 
 </RelativeLayout>
