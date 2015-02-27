@@ -5,12 +5,20 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.chamas.luis.iou.R;
 
 public class person extends Activity {
     private TextView person;
+    private EditText amount2Pay;
+    private Button payButton;
+    private String name;
+    private String price;
+    private String position;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,11 +26,15 @@ public class person extends Activity {
         setContentView(R.layout.activity_person);
         Intent activityThatCalled = getIntent();
         person = (TextView)findViewById(R.id.PersonsTextView);
-        String name = activityThatCalled.getExtras().getString("owePerson");
+        name = activityThatCalled.getExtras().getString("owePerson");
         person.setText(name);
-        String price = activityThatCalled.getExtras().getString("price");
+        price = activityThatCalled.getExtras().getString("price");
         TextView money = (TextView)findViewById(R.id.MoneyView);
         money.setText(price);
+        position = activityThatCalled.getExtras().getString("position");
+
+        amount2Pay = (EditText)findViewById(R.id.editText);
+        payButton = (Button)findViewById(R.id.button2);
 
     }
 
@@ -44,5 +56,32 @@ public class person extends Activity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void payDebt(View view) {
+        double paying;
+        double total;
+        paying = Double.parseDouble(String.valueOf(amount2Pay.getText()));
+
+        total = Double.parseDouble(price) - paying;
+
+        if(total <= 0){
+            total = 0;
+        }
+
+        Intent payDebt = new Intent(this, MyActivity.class);
+        payDebt.putExtra("total", total);
+        payDebt.putExtra("position", position);
+        setResult(RESULT_OK,payDebt);
+        finish();
+    }
+
+    public void liquidateDebt(View view) {
+        double total = 0;
+        Intent liquidate = new Intent(this, MyActivity.class);
+        liquidate.putExtra("total", total);
+        liquidate.putExtra("position", position);
+        setResult(RESULT_OK, liquidate);
+        finish();
     }
 }

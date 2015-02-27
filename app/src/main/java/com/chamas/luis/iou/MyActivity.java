@@ -27,6 +27,7 @@ public class MyActivity extends Activity {
     private ArrayList<items> go = new ArrayList<items>();
     private ListAdapter theAdapter;
     private TextView noDebt;
+    private double total;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,7 +85,8 @@ public class MyActivity extends Activity {
                 String price = item.getPrice();
                 getPerson.putExtra("owePerson",personPicked);
                 getPerson.putExtra("price", price);
-                startActivity(getPerson);
+                getPerson.putExtra("position", position);
+                startActivityForResult(getPerson, 2);
             }
         });
 
@@ -155,11 +157,29 @@ public class MyActivity extends Activity {
                 //Write your code if there's no result
             }
         }
+
+        if(requestCode == 2){
+            if(resultCode == RESULT_OK){
+                String positionToRemove = data.getExtras().getString("position");
+                total = Double.parseDouble(data.getExtras().getString("total"));
+                if(total == 0){
+                    //delete from list
+                    go.remove(Integer.valueOf(positionToRemove));
+                    owe.invalidateViews();
+                }else{
+                    //put the new total as the amount in debt
+                    
+
+                }
+
+            }
+        }
     }//onActivityResult
 
     public void DebtsPage(View view) {
         Intent getDebtsPage = new Intent(this, MyActivity.class);
         startActivity(getDebtsPage);
+        finish();
 
     }
 
@@ -167,4 +187,6 @@ public class MyActivity extends Activity {
         Intent getLoansPage = new Intent(this, LoansPage.class);
         startActivity(getLoansPage);
     }
+
+
 }
