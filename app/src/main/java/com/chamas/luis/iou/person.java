@@ -18,7 +18,7 @@ public class person extends Activity {
     private Button payButton;
     private String name;
     private String price;
-    private String position;
+    private int position;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +31,7 @@ public class person extends Activity {
         price = activityThatCalled.getExtras().getString("price");
         TextView money = (TextView)findViewById(R.id.MoneyView);
         money.setText(price);
-        position = activityThatCalled.getExtras().getString("position");
+        position = activityThatCalled.getExtras().getInt("position");
 
         amount2Pay = (EditText)findViewById(R.id.editText);
         payButton = (Button)findViewById(R.id.button2);

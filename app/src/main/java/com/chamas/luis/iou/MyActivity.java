@@ -160,15 +160,19 @@ public class MyActivity extends Activity {
 
         if(requestCode == 2){
             if(resultCode == RESULT_OK){
-                String positionToRemove = data.getExtras().getString("position");
-                total = Double.parseDouble(data.getExtras().getString("total"));
+                int positionToRemove = data.getExtras().getInt("position");
+                total = data.getExtras().getDouble("total");
+                //total = Double.parseDouble(data.getExtras().getString("total"));
                 if(total == 0){
                     //delete from list
-                    go.remove(Integer.valueOf(positionToRemove));
+                    go.remove(positionToRemove);
                     owe.invalidateViews();
+                    if(theAdapter.isEmpty()){
+                        noDebt.setText("You Have No Debts!!");
+                    }
                 }else{
                     //put the new total as the amount in debt
-                    
+
 
                 }
 
