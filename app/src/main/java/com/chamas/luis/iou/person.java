@@ -72,6 +72,7 @@ public class person extends Activity {
         Intent payDebt = new Intent(this, MyActivity.class);
         payDebt.putExtra("total", total);
         payDebt.putExtra("position", position);
+        payDebt.putExtra("name", name);
         setResult(RESULT_OK,payDebt);
         finish();
     }

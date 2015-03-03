@@ -162,7 +162,6 @@ public class MyActivity extends Activity {
             if(resultCode == RESULT_OK){
                 int positionToRemove = data.getExtras().getInt("position");
                 total = data.getExtras().getDouble("total");
-                //total = Double.parseDouble(data.getExtras().getString("total"));
                 if(total == 0){
                     //delete from list
                     go.remove(positionToRemove);
@@ -172,8 +171,16 @@ public class MyActivity extends Activity {
                     }
                 }else{
                     //put the new total as the amount in debt
-
-
+                    go.remove(positionToRemove);
+                    owe.invalidateViews();
+                    newName = data.getExtras().getString("name");
+                    newAmount = String.valueOf(total);
+                    go.add(new items(newName, newAmount));
+                    if(!theAdapter.isEmpty()){
+                        noDebt.setText(" ");
+                    }
+                    owe = (ListView) findViewById(R.id.DebtsListView);
+                    owe.setAdapter(theAdapter);
                 }
 
             }
