@@ -31,8 +31,6 @@ public class MyActivity extends Activity {
     private ListAdapter theAdapter;
     private TextView noDebt;
     private double total;
-    private GestureDetector gestureDetector;
-    private View.OnTouchListener gestureListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,16 +47,6 @@ public class MyActivity extends Activity {
         //  owe.setAdapter(theAdapter);
 
         //if(!go.isEmpty()) noDebt.setText(" ");
-
-        gestureDetector = new GestureDetector(new SwipeGestureListener());
-        gestureListener = new View.OnTouchListener(){
-            public boolean onTouch(View v, MotionEvent event){
-                return gestureDetector.onTouchEvent(event);
-            }
-        };
-
-        owe.setOnTouchListener(gestureListener);
-        noDebt.setOnTouchListener(gestureListener);
 
         //long click listener to delete people from the list
         owe.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
@@ -83,9 +71,6 @@ public class MyActivity extends Activity {
                     }
                 });
                 adb.show();
-
-
-
                 return true;
             }
         });
@@ -108,38 +93,6 @@ public class MyActivity extends Activity {
 
     }
 
-    private void onLeftSwipe(){
-        Toast.makeText(this, "swipe left", Toast.LENGTH_LONG).show();
-        Intent getLoansPage = new Intent(this, LoansPage.class);
-        startActivity(getLoansPage);
-    }
-
-    private class SwipeGestureListener extends GestureDetector.SimpleOnGestureListener{
-        private static final int SWIPE_MIN_DIST = 50;
-        private static final int SWIPE_MAX_OFF_PATH = 200;
-        private static final int SWIPE_THRESHOLD_VELOCITY = 200;
-
-        @Override
-        public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY){
-            try{
-                Toast.makeText(MyActivity.this, "Gesture Detected", Toast.LENGTH_SHORT).show();
-                float diffAbs = Math.abs(e1.getY() - e2.getY());
-                float diff = e1.getX() - e2.getX();
-                if(diffAbs > SWIPE_MAX_OFF_PATH){
-                    return false;
-                }
-
-                //Left Swipe
-                if(diff > SWIPE_MIN_DIST && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY){
-                    MyActivity.this.onLeftSwipe();
-                }
-
-            }catch (Exception e){
-                Log.e("Home", "Error on gesture");
-            }
-            return false;
-        }
-    }
 
     //might not need this
     private ArrayList<items> generateData(){
@@ -237,15 +190,16 @@ public class MyActivity extends Activity {
     }//onActivityResult
 
     public void DebtsPage(View view) {
-        Intent getDebtsPage = new Intent(this, MyActivity.class);
-        startActivity(getDebtsPage);
-        finish();
-
+//        Intent getDebtsPage = new Intent(this, MyActivity.class);
+//        startActivity(getDebtsPage);
+//        finish();
+        Toast.makeText(MyActivity.this, "Already on debts page", Toast.LENGTH_SHORT).show();
     }
 
     public void LoansPage(View view) {
-//        Intent getLoansPage = new Intent(this, LoansPage.class);
-//        startActivity(getLoansPage);
+        Intent getLoansPage = new Intent(this, LoansPage.class);
+        startActivity(getLoansPage);
+
     }
 
 

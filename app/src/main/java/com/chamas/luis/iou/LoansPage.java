@@ -1,6 +1,8 @@
 package com.chamas.luis.iou;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -11,33 +13,74 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.chamas.luis.iou.R;
+
+import java.util.ArrayList;
 
 public class LoansPage extends Activity {
     private Button debt;
     private Button loan;
     private ListView owe;
+    private String newName="";
+    private String newAmount="";
+    private ArrayList<items> go = new ArrayList<items>();
+    private ListAdapter theAdapter;
+    private TextView noLoan;
+    private double total;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_loans_page);
 
-        String[] Money = {"Luis", "Albertorio"};
-
         debt = (Button)findViewById(R.id.LoansPageDebtsButton);
         loan = (Button)findViewById(R.id.LoansPageLoansButton);
         owe = (ListView)findViewById(R.id.LoansListView);
-        ListAdapter theAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,Money);
-        owe.setAdapter(theAdapter);
+        noLoan = (TextView)findViewById(R.id.NoLoansTextView);
+
+        owe.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
+                items item;
+                item = (items) parent.getItemAtPosition(position);
+                String personPicked = item.getName();
+
+
+                AlertDialog.Builder adb = new AlertDialog.Builder(LoansPage.this);
+                adb.setTitle("Delete?");
+                adb.setMessage("Are you sure you want to delete " + personPicked);
+                final int positionToRemove = position;
+                adb.setNegativeButton("Cancel", null);
+                adb.setPositiveButton("Ok", new AlertDialog.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        go.remove(positionToRemove);
+                        owe.invalidateViews();
+                        if(theAdapter.isEmpty())noLoan.setText("You Have No Debts!!");
+                    }
+                });
+                adb.show();
+                return true;
+            }
+        });
 
         owe.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                items item;
+
                 Intent getPerson = new Intent(LoansPage.this, LoanPerson.class);
-                String personPicked = String.valueOf(parent.getItemAtPosition(position));
-                getPerson.putExtra("PersonLoan", personPicked);
-                startActivity(getPerson);
+                String personPicked;
+                item = (items)parent.getItemAtPosition(position);
+                personPicked = item.getName();
+                String price = item.getPrice();
+                getPerson.putExtra("owePerson",personPicked);
+                getPerson.putExtra("price", price);
+                getPerson.putExtra("position", position);
+                startActivityForResult(getPerson, 2);
             }
         });
     }
@@ -68,7 +111,8 @@ public class LoansPage extends Activity {
     }
 
     public void LoansPage(View view) {
-        Intent getLoansPage = new Intent(this, LoansPage.class);
-        startActivity(getLoansPage);
+//        Intent getLoansPage = new Intent(this, LoansPage.class);
+//        startActivity(getLoansPage);
+        Toast.makeText(LoansPage.this, "Already in Loans page", Toast.LENGTH_SHORT).show();
     }
 }
