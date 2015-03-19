@@ -109,7 +109,24 @@ public class LoansPage extends Activity {
     }
 
 
-    protected void onActivityResult(int requestCode, int resultCode, Intent intent){
+    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+        if(requestCode == 1){
+            if(resultCode == RESULT_OK){
+                newName = data.getExtras().getString("newName");
+                newAmount = data.getExtras().getString("newAmount");
+                go.add(new items(newName, newAmount));
+
+                theAdapter = new MyAdapter_2(this, go);
+                if(!theAdapter.isEmpty()){
+                    noLoan.setText(" ");
+                }
+                owe = (ListView)findViewById(R.id.LoansListView);
+                owe.setAdapter(theAdapter);
+            }else{
+                //write code if there's no result
+            }
+        }
+
 
     }
 
