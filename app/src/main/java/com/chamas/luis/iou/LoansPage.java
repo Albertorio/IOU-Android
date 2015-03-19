@@ -100,10 +100,19 @@ public class LoansPage extends Activity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if (id == R.id.exit) {
-            return true;
+            finish();
+        }else if(id == R.id.add_loan){
+            Intent new_loan = new Intent(this, AddLoan.class);
+            startActivityForResult(new_loan, 1);
         }
         return super.onOptionsItemSelected(item);
     }
+
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent){
+
+    }
+
 
     public void DebtsPage(View view) {
         Intent getDebtsPage = new Intent(this, MyActivity.class);

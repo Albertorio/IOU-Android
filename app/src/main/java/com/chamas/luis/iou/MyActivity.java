@@ -134,6 +134,7 @@ public class MyActivity extends Activity {
         if (id == R.id.add_debt) {
             Intent new_debt = new Intent(this, AddDebt.class);
             startActivityForResult(new_debt, 1);
+
         }else if(id == R.id.exit){
             finish();
         }

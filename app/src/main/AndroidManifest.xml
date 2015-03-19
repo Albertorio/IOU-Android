@@ -32,6 +32,10 @@
             android:name=".AddDebt"
             android:label="@string/app_name" >
         </activity>
+        <activity
+            android:name=".AddLoan"
+            android:label="@string/title_activity_add_loan" >
+        </activity>
     </application>
 
 </manifest>
